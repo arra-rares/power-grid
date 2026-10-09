@@ -23,29 +23,24 @@
         </Grid.ContextMenu>
 
         <ItemsControl ItemsSource="{Binding SuppliesRows}">
-
-            <!--
-                Define the layout for arranging PricePanels:
-                - Uses a WrapPanel, which arranges items horizontally and wraps them to the next row as needed.
-            -->
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel />
+                    <UniformGrid Columns="1" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
 
-            <!--
-                Define the template for each PricePanel:
-                - Each item in the ItemsControl is rendered using the PricePanelView component.
-            -->
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <resupply:SuppliesRowView />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-
         </ItemsControl>
 
     </Grid>
 </UserControl>
-

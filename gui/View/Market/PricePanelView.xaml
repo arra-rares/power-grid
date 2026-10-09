@@ -2,60 +2,31 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:market="clr-namespace:gui.View.Market">
-    <!--
-        PricePanelView is responsible for rendering a price tier in the UI.
-        Each PricePanel includes:
-        - A label for the price.
-        - A list of resource rows (e.g., coal, oil, garbage, uranium).
-        This ensures a clear and structured display of resources associated with the given price.
-    -->
 
-    <Border Margin="5">
-        <!--
-            Grid Layout:
-            - Row 1: Displays the price at the top.
-            - Row 2: Displays resource rows below the price.
-        -->
+    <Border Margin="4">
         <Grid>
             <Grid.RowDefinitions>
-                <!-- Row for the price display -->
                 <RowDefinition Height="Auto" />
-                <!-- Row for the resource rows -->
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!--
-                Price Display:
-                - Uses a TextBlock to display the Price property from PricePanelViewModel.
-                - Styled with MarketPriceTextStyle to ensure consistency across the application.
-            -->
             <TextBlock 
                 Text="{Binding Price}" 
                 Style="{StaticResource MarketPriceTextStyle}" />
 
-            <!--
-                Resource Rows:
-                - Uses an ItemsControl to render each resource row.
-                - Each row is represented by a ResourceRowView, which handles its own layout and rendering logic.
-            -->
             <ItemsControl ItemsSource="{Binding ResourceRows}" Grid.Row="1">
-
-                <!--
-                    ItemsPanelTemplate:
-                    - Defines the layout for all resource rows.
-                    - Uses a vertical StackPanel to stack rows one below the other.
-                -->
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel />
+                        <UniformGrid Columns="1" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
 
-                <!--
-                    DataTemplate:
-                    - Defines the template for each resource row.
-                    - Renders a ResourceRowView for each ResourceRowViewModel in ResourceRows.
-                -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <market:ResourceRowView />

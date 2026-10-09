@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:view="clr-namespace:gui.View.Players"
-             xmlns:helpers="clr-namespace:gui.Helpers"
-             MaxHeight="136"
              AllowDrop="True"
              PreviewMouseLeftButtonDown="OnMouseLeftButtonDown"
              PreviewMouseMove="OnMouseMove"
@@ -16,8 +14,8 @@
         <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClickCommand}" />
     </UserControl.InputBindings>
 
-    <Border CornerRadius="10" Margin="10" Background="{StaticResource SecondaryBrush}">
-        <Grid Height="Auto">
+    <Border CornerRadius="10" Margin="6" Background="{StaticResource SecondaryBrush}">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*" />
                 <!-- StatusBtnView -->
@@ -27,21 +25,24 @@
                 <!-- ClockView -->
             </Grid.ColumnDefinitions>
 
-            <!-- Status Button View -->
-            <view:StatusBtnView VerticalAlignment="Center"
-                                HorizontalAlignment="Left" 
+            <view:StatusBtnView VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch" 
                                 Grid.Column="0" />
 
-            <!-- Player Name -->
-            <TextBlock Text="{Binding Name}"
-                       Grid.Column="1"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Margin="10" 
-                       FontSize="60" 
-                       Foreground="White" />
+            <!-- Viewbox keeps long names / large fonts inside the shared row height. -->
+            <Viewbox Grid.Column="1"
+                     Stretch="Uniform"
+                     StretchDirection="DownOnly"
+                     Margin="4">
+                <TextBlock Text="{Binding Name}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontSize="{DynamicResource FontSizeMedium}" 
+                           Foreground="White"
+                           TextTrimming="CharacterEllipsis"
+                           MaxWidth="400" />
+            </Viewbox>
 
-            <!-- Clock View -->
             <view:ClockView DataContext="{Binding Clock}" Grid.Column="2"/>
         </Grid>
     </Border>

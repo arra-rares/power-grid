@@ -7,14 +7,13 @@
         <vm:AuctionViewModel/>
     </UserControl.DataContext>
 
-
     <Border Margin="5">
         <Grid>
             <Image Source="{Binding CurrentCardImage}"
-               Width="Auto" Height="Auto"
                Stretch="Uniform"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
+               VerticalAlignment="Center"
+               Margin="8"/>
         </Grid>
     </Border>
 

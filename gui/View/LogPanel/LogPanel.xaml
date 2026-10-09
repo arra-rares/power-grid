@@ -12,13 +12,15 @@
          Name="LogListBox"
          AlternationCount="1000000"
          Background="#1E1E2E"
+         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+         ScrollViewer.VerticalScrollBarVisibility="Auto"
          MouseDoubleClick="LogListBox_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource LogIndexFormatter}}"
-                                       FontFamily="Lucida Console" FontSize="18" />
-                            <TextBlock Text="{Binding}" FontFamily="Lucida Console" FontSize="18"/>
+                                       FontFamily="Lucida Console" FontSize="{DynamicResource FontSizeSmall}" />
+                            <TextBlock Text="{Binding}" FontFamily="Lucida Console" FontSize="{DynamicResource FontSizeSmall}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

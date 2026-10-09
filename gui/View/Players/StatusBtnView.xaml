@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="gui.View.Players.StatusBtnView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Button Command="{Binding Status.ButtonCommand}"  Style="{StaticResource StatusButtonStyle}">
-        <Image Source="{Binding Status.StatusImage}" />
+    <Button Command="{Binding Status.ButtonCommand}" Style="{StaticResource StatusButtonStyle}">
+        <Image Source="{Binding Status.StatusImage}" Stretch="Uniform" Margin="4" />
     </Button>
 </UserControl>

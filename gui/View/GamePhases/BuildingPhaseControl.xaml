@@ -11,29 +11,31 @@
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <!-- Title "Current:" -->
-                <RowDefinition Height="Auto"/>
-                <!-- Image, Value, +1, -1 -->
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <!-- Title "Total:" -->
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <!-- Image, Value, Ready, Done -->
             </Grid.RowDefinitions>
 
-            <!-- Row 1: Title "Current:" -->
-            <TextBlock Text="Current:" Grid.Row="0" FontSize="60" FontWeight="Bold" HorizontalAlignment="Left"/>
+            <TextBlock Text="Current:" Grid.Row="0"
+                       FontSize="{DynamicResource FontSizeMedium}"
+                       FontWeight="Bold" HorizontalAlignment="Left"/>
 
-            <!-- Row 2: Image, Current Value, +1 Button, -1 Button -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Source="{Binding CurrentIcon}" Grid.Column="0" Height="100" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding CurrentValue}" Grid.Column="1" FontSize="60" HorizontalAlignment="Center"/>
+                <Image Source="{Binding CurrentIcon}" Grid.Column="0"
+                       MaxHeight="{DynamicResource PhaseImageHeight}"
+                       Stretch="Uniform" HorizontalAlignment="Center"/>
+                <Viewbox Grid.Column="1" Stretch="Uniform" StretchDirection="DownOnly">
+                    <TextBlock Text="{Binding CurrentValue}"
+                               FontSize="{DynamicResource FontSizeMedium}"
+                               HorizontalAlignment="Center"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="2">
@@ -45,18 +47,24 @@
                 <Button Content="-1" Command="{Binding DecreaseCurrentCommand}" Grid.Column="1"/>
             </Grid>
 
-            <!-- Row 3: Title "Total:" -->
-            <TextBlock Text="Total:" Grid.Row="3" FontSize="60" FontWeight="Bold" HorizontalAlignment="Left"/>
+            <TextBlock Text="Total:" Grid.Row="3"
+                       FontSize="{DynamicResource FontSizeMedium}"
+                       FontWeight="Bold" HorizontalAlignment="Left"/>
 
-            <!-- Row 4: Image, Total Value, Ready Button, Done Button -->
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Source="{Binding TotalIcon}" Grid.Column="0" Height="100" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding TotalValue}" Grid.Column="1" FontSize="60" HorizontalAlignment="Center"/>
+                <Image Source="{Binding TotalIcon}" Grid.Column="0"
+                       MaxHeight="{DynamicResource PhaseImageHeight}"
+                       Stretch="Uniform" HorizontalAlignment="Center"/>
+                <Viewbox Grid.Column="1" Stretch="Uniform" StretchDirection="DownOnly">
+                    <TextBlock Text="{Binding TotalValue}"
+                               FontSize="{DynamicResource FontSizeMedium}"
+                               HorizontalAlignment="Center"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="5">
@@ -70,4 +78,3 @@
         </Grid>
     </Border>
 </UserControl>
-

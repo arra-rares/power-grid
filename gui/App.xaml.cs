@@ -23,6 +23,8 @@ namespace gui
         {
             base.OnStartup(e);
 
+            Helpers.UiScale.EnsureInitialized();
+
             // Attach console for logging
             AllocConsole();
 

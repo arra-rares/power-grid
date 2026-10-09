@@ -9,14 +9,25 @@
     </UserControl.DataContext>
 
     <Border Margin="5">
-        <Grid Margin="10" VerticalAlignment="Center">
+        <Grid Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <ItemsControl Grid.Row="0" ItemsSource="{Binding Resources}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <local:ResourceRow DataContext="{Binding}"/>
@@ -24,21 +35,20 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Button Command="{Binding DoneCommand}" Grid.Row="1" HorizontalAlignment="Center" Width="400" Height="100">
-                <TextBlock Text="Done" FontSize="25"/>
+            <Button Command="{Binding DoneCommand}"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Width="{DynamicResource PhaseButtonWidth}"
+                    Height="{DynamicResource PhaseButtonHeight}">
+                <TextBlock Text="Done" FontSize="{DynamicResource FontSizeDefault}"/>
             </Button>
 
-            <Grid Grid.Row="2" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Total:" FontSize="80" Grid.Column="0"/>
-                <TextBlock Text="{Binding Total}" FontSize="80" Grid.Column="1"/>
-
-            </Grid>
-
+            <Viewbox Grid.Row="2" Stretch="Uniform" StretchDirection="DownOnly" MaxHeight="120">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Total:" FontSize="{DynamicResource FontSizeLarge}"/>
+                    <TextBlock Text="{Binding Total}" FontSize="{DynamicResource FontSizeLarge}"/>
+                </StackPanel>
+            </Viewbox>
         </Grid>
     </Border>
 
