@@ -6,24 +6,25 @@
              mc:Ignorable="d" 
              Background="#1E1E2E"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border Margin="10">
-        <Grid Margin="10">
-            <ListBox ItemsSource="{Binding Logs}"
-         Name="LogListBox"
-         AlternationCount="1000000"
-         Background="#1E1E2E"
-         MouseDoubleClick="LogListBox_MouseDoubleClick">
+    <Border Margin="5">
+        <ListBox ItemsSource="{Binding Logs}"
+                 Name="LogListBox"
+                 AlternationCount="1000000"
+                 Background="#1E1E2E"
+                 BorderThickness="0"
+                 Padding="8"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 MouseDoubleClick="LogListBox_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource LogIndexFormatter}}"
-                                       FontFamily="Lucida Console" FontSize="18" />
-                            <TextBlock Text="{Binding}" FontFamily="Lucida Console" FontSize="18"/>
+                                       FontFamily="Lucida Console" FontSize="{DynamicResource FontSizeSmall}" />
+                            <TextBlock Text="{Binding}" FontFamily="Lucida Console" FontSize="{DynamicResource FontSizeSmall}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
-
-        </Grid>
+        </ListBox>
     </Border>
 </UserControl>

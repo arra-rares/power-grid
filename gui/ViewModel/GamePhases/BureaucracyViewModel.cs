@@ -15,8 +15,10 @@ namespace gui.ViewModel.GamePhases
 
         private void StartRound(object? parameter)
         {
-            GameManager.Instance.Done();
-            _ = GameManager.Instance.StartRound();
+            if (GameManager.Instance.IsRoundRunning)
+                GameManager.Instance.Done();
+            else
+                GameManager.Instance.StartGame();
         }
     }
 }

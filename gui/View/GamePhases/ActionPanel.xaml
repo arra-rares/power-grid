@@ -12,9 +12,9 @@
         <ImageBrush x:Key="MarketBackground" ImageSource="../../Assets/Images/market.png"/>
     </UserControl.Resources>
 
-
-    <Grid Background="{StaticResource MarketBackground}" Margin="10">
-        <!-- This dynamically loads the phase UserControl -->
-        <ContentControl Content="{Binding CurrentPhaseView}"/>
+    <Grid Background="{StaticResource MarketBackground}">
+        <ContentControl Content="{Binding CurrentPhaseView}"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"/>
     </Grid>
 </UserControl>

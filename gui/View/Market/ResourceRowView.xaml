@@ -2,39 +2,20 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:market="clr-namespace:gui.View.Market">
-    <!--
-        ResourceRowView is responsible for rendering a single row of resources within a PricePanel.
-        Each row consists of resource buttons, dynamically rendered using the ResourceView component.
-        This ensures consistency across the UI for rendering resources.
-    -->
 
-    <StackPanel Orientation="Horizontal" Height="62">
-        <!--
-            ItemsControl is used to dynamically render resource buttons for this row.
-            The ItemsSource is bound to ResourceButtons in the ResourceRowViewModel.
-        -->
+    <StackPanel Orientation="Horizontal" Height="{DynamicResource ResourceRowHeight}">
         <ItemsControl ItemsSource="{Binding ResourceButtons}">
-
-            <!--
-                Define the layout of the ItemsControl as a horizontal StackPanel,
-                ensuring all resource buttons are displayed in a row.
-            -->
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
-            <!--
-                Define the template for each resource button in this row.
-                ResourceView is used to encapsulate the rendering and logic for each resource button.
-            -->
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <market:ResourceView />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-
         </ItemsControl>
     </StackPanel>
 </UserControl>

@@ -1,23 +1,8 @@
 ﻿<UserControl x:Class="gui.View.Market.ResourceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!--
-        ResourceView is responsible for rendering a single resource button in the UI.
-        Each resource button displays an image (ResourceImage) and handles a click event via a command (ButtonCommand).
-        This ensures that resource buttons are visually consistent and encapsulate their own interaction logic.
-    -->
 
-    <!--
-        Button: Represents a clickable resource item.
-        - Command: Bound to ButtonCommand in the ResourceBtnViewModel, ensuring proper handling of click events.
-        - Style: Uses a predefined style (ResourceButtonStyle) to maintain consistent appearance across the UI.
-        - Child: Contains an Image element to display the resource's visual representation.
-    -->
-    <Button Command="{Binding ButtonCommand}"  Style="{StaticResource ResourceButtonStyle}">
-        <!--
-            Image: Displays the resource's image.
-            - Source: Bound to ResourceImage in the ResourceBtnViewModel, dynamically updating based on the resource's state.
-        -->
+    <Button Command="{Binding ButtonCommand}" Style="{StaticResource ResourceButtonStyle}">
         <Image Source="{Binding ResourceImage}" />
     </Button>
 

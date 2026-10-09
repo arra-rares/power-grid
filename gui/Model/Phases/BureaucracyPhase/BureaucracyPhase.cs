@@ -38,6 +38,9 @@ namespace gui.Model.Phases.BureaucracyPhase
 
         public void OnStartRoundPressed()
         {
+            if (_tcs == null || _tcs.Task.IsCompleted)
+                return;
+
             Log.Information("Start Round Button pressed");
 
             Enum.GetValues(typeof(ResourceType))

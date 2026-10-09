@@ -1,4 +1,5 @@
 ﻿using gui.Model.Managers.MarketManager;
+using gui.Model.Persistence;
 using gui.Model.Utils;
 using System.Diagnostics;
 using System.Resources;
@@ -57,14 +58,14 @@ namespace gui.Model.Managers.MarketManager
 
         public void UpdateMostLimitedResource(int quantity)
         {
-            var resourceType = _resourceManager.GetMostLimitedResourceType();
+            var resourceType = _resourceManager.GetCheapestResourceType();
             Update(resourceType, quantity);
         }
 
 
         public void UpdateMostAvaialableResource(int quantity)
         {
-            var resourceType = _resourceManager.GetMostAvailableResourceType();
+            var resourceType = _resourceManager.GetMostExpensiveResourceType();
             Update(resourceType, quantity);
         }
 
@@ -99,6 +100,10 @@ namespace gui.Model.Managers.MarketManager
             // Reload the market configuration
             LoadMarketFromCsv();
         }
+
+        public List<MarketPileSnapshot> ExportPiles() => _resourceManager.ExportPiles();
+
+        public void ImportPiles(IEnumerable<MarketPileSnapshot> piles) => _resourceManager.ImportPiles(piles);
 
         // 4. Private Methods
         public void LoadMarketFromCsv()

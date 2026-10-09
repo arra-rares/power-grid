@@ -10,10 +10,13 @@
     <Border Margin="5">
         <Grid>
             <TextBlock Text="Bureaucracy Phase"
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="{DynamicResource FontSizeDefault}" />
 
             <Button Content="Start Round"
-                Width="300" Height="100"
+                Width="{DynamicResource BureaucracyButtonWidth}"
+                Height="{DynamicResource PhaseButtonHeight}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Command="{Binding StartRoundCommand}"/>

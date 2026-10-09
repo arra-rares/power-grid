@@ -7,22 +7,34 @@
         xmlns:info="clr-namespace:gui.View.Info"
         xmlns:action="clr-namespace:gui.View.GamePhases"
         xmlns:log="clr-namespace:gui.View.LogPanel"
-        Title="Player Input" Height="200" Width="400">
+        Title="Power Grid"
+        Width="1600"
+        Height="900"
+        MinWidth="960"
+        MinHeight="540"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        Background="{StaticResource PrimaryBrush}"
+        KeyDown="MainWindow_KeyDown"
+        SizeChanged="MainWindow_SizeChanged"
+        Loaded="MainWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="27*" />
-            <!-- PlayersPanel: 30% -->
+            <!-- PlayersPanel -->
             <ColumnDefinition Width="73*" />
-            <!-- Main Content: 70% -->
+            <!-- Main Content -->
         </Grid.ColumnDefinitions>
 
         <players:PlayersPanel Grid.Column="0" />
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="52*" />
-                <!-- First row (Info, Action, EventCards, Supply) -->
-                <RowDefinition Height="48*" />
+                <RowDefinition Height="54*" />
+                <!-- Info, Action, Supply -->
+                <RowDefinition Height="46*" />
                 <!-- MarketPanel -->
             </Grid.RowDefinitions>
 
@@ -33,15 +45,15 @@
                     <ColumnDefinition Width="35*" />
                     <!-- ActionPanel -->
                     <ColumnDefinition Width="30*" />
-                    <!-- SupplyPanel -->
+                    <!-- Supply + Log -->
                 </Grid.ColumnDefinitions>
 
                 <info:InfoPanel Grid.Column="0"/>
                 <action:ActionPanel Grid.Column="1" />
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80*" />
-                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="68*" />
+                        <RowDefinition Height="32*" />
                     </Grid.RowDefinitions>
 
                     <resupply:ResupplyPanel Grid.Row="0"/>

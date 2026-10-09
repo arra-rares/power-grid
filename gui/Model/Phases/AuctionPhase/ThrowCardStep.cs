@@ -18,13 +18,8 @@ namespace gui.Model.Phases.AuctionPhase
             }
 
             if (_ctx.Participants.Count == 0)
-            { 
-                if(_ctx.Card.EndsTurn)
-                {
-                    _ctx.Card.EndsTurn = false;
-                    _ctx.SpecialAuctionRequest.Clear();
-                }
-                return new StartAuctionStep(_ctx); 
+            {
+                return new StartAuctionStep(_ctx);
             }
 
             var player = _ctx.Participants.First();

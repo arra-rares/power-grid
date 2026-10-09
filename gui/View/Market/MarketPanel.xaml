@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:market="clr-namespace:gui.View.Market"
-             xmlns:vm="clr-namespace:gui.ViewModel.Market">
+             xmlns:vm="clr-namespace:gui.ViewModel.Market"
+             SizeChanged="MarketPanel_SizeChanged">
 
     <UserControl.DataContext>
         <vm:MarketViewModel />
@@ -19,7 +20,8 @@
             </ContextMenu>
         </Grid.ContextMenu>
 
-        <ItemsControl ItemsSource="{Binding PricePanels}">
+        <!-- Natural column width; wraps onto a second row when the row is full. -->
+        <ItemsControl x:Name="MarketItems" ItemsSource="{Binding PricePanels}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />

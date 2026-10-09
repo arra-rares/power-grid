@@ -26,6 +26,9 @@ namespace gui.View.LogPanel
             DataContext = App.LogPanelViewModel; // assuming singleton
             App.LogPanelViewModel.PropertyChanged += (_, _) =>
             {
+                if (LogListBox.Items.Count == 0)
+                    return;
+
                 LogListBox.ScrollIntoView(LogListBox.Items[^1]);
             };
         }

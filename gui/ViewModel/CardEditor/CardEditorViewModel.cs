@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using gui.Helpers;
 using gui.Model.Managers.CardManager;
+using gui.Model.Persistence;
 using gui.Model.Managers.MarketManager;
 using gui.Model.Utils;
 using gui.View.CardEditor;
@@ -136,6 +137,12 @@ namespace gui.ViewModel.CardEditor
 
         private void OnUnknownCardScanned(int cardId)
         {
+            if (GameSession.Active)
+            {
+                Log.Information("Card catalog editor is blocked while a session is active. Unknown card {CardId}", cardId);
+                return;
+            }
+
             Log.Information($"OnUnknownCardScanned, id {cardId}");
 
             Application.Current.Dispatcher.Invoke(() =>

@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              Background="#1E1E2E">
 
-    <!-- 🔥 Define Frozen Brushes to Prevent Cross-Thread Issues -->
     <UserControl.Resources>
         <SolidColorBrush x:Key="WhiteBrush" Color="White"/>
         <SolidColorBrush x:Key="TomatoBrush" Color="Tomato"/>
@@ -15,64 +14,110 @@
         <SolidColorBrush x:Key="AccentBrush" Color="#FF6F61"/>
     </UserControl.Resources>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="3*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <!-- Auction Question -->
         <Border Grid.Row="0" Margin="5">
-            <TextBlock Text="{Binding PhaseName}" 
-               FontSize="80" FontWeight="Bold" 
-               Foreground="{StaticResource WhiteBrush}" 
-               TextAlignment="Center"
-               HorizontalAlignment="Center" 
-               Margin="0,0,0,10"
-               TextWrapping="Wrap"/>
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                <TextBlock Text="{Binding PhaseName}"
+                           FontSize="{DynamicResource FontSizeLarge}" FontWeight="Bold"
+                           Foreground="{StaticResource WhiteBrush}"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           MaxWidth="600" />
+            </Viewbox>
         </Border>
 
-        <!-- Turn Info -->
         <Border Grid.Row="1" Margin="5">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                 <TextBlock Text="{Binding PlayerName}" 
-                           FontSize="60" FontWeight="Bold" 
-                           Foreground="{StaticResource AccentBrush}"/>
-            </StackPanel>
+                           FontSize="{DynamicResource FontSizeMedium}" FontWeight="Bold" 
+                           Foreground="{StaticResource AccentBrush}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           MaxWidth="600"/>
+            </Viewbox>
         </Border>
 
-        <!-- Options -->
         <Border Grid.Row="2" Margin="5">
-            <StackPanel Margin="0,5,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="A - " FontSize="40" FontWeight="Bold" FontStyle="Italic" 
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly"
+                     HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Grid Margin="0,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="A - "
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" FontStyle="Italic" 
                                Foreground="{StaticResource LimeBrush}"/>
-                    <TextBlock Text="{Binding OptionA}" FontSize="40" FontWeight="Bold" 
-                               Foreground="{StaticResource WhiteBrush}"/>
-                </StackPanel>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OptionA}"
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" 
+                               Foreground="{StaticResource WhiteBrush}"
+                               TextWrapping="Wrap"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="B - " FontSize="40" FontWeight="Bold" FontStyle="Italic" 
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="B - "
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" FontStyle="Italic" 
                                Foreground="{StaticResource TomatoBrush}"/>
-                    <TextBlock Text="{Binding OptionB}" FontSize="40" FontWeight="Bold" 
-                               Foreground="{StaticResource WhiteBrush}"/>
-                </StackPanel>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding OptionB}"
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" 
+                               Foreground="{StaticResource WhiteBrush}"
+                               TextWrapping="Wrap"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="C - " FontSize="40" FontWeight="Bold" FontStyle="Italic" 
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="C - "
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" FontStyle="Italic" 
                                Foreground="{StaticResource LightBlueBrush}"/>
-                    <TextBlock Text="{Binding OptionC}" FontSize="40" FontWeight="Bold" 
-                               Foreground="{StaticResource WhiteBrush}"/>
-                </StackPanel>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding OptionC}"
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" 
+                               Foreground="{StaticResource WhiteBrush}"
+                               TextWrapping="Wrap"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="D - " FontSize="40" FontWeight="Bold" FontStyle="Italic" 
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="D - "
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" FontStyle="Italic" 
                                Foreground="{StaticResource GrayBrush}"/>
-                    <TextBlock Text="{Binding OptionD}" FontSize="40" FontWeight="Bold" 
-                               Foreground="{StaticResource WhiteBrush}"/>
-                </StackPanel>
-            </StackPanel>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding OptionD}"
+                               FontSize="{DynamicResource FontSizeDefault}" FontWeight="Bold" 
+                               Foreground="{StaticResource WhiteBrush}"
+                               TextWrapping="Wrap"/>
+                </Grid>
+            </Viewbox>
+        </Border>
+
+        <Border Grid.Row="3" Margin="5">
+            <Button Command="{Binding ToggleClockCommand}"
+                    Margin="4"
+                    Padding="4"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch">
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Set clock..."
+                                  FontSize="22"
+                                  Command="{Binding SetClockCommand}" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+                <Viewbox Stretch="Uniform">
+                    <TextBlock Text="{Binding ClockButtonText}"
+                               FontSize="72"
+                               FontWeight="Bold"
+                               Margin="0"
+                               Foreground="{Binding ClockBrush}" />
+                </Viewbox>
+            </Button>
         </Border>
     </Grid>
 </UserControl>
