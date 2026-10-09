@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Button Command="{Binding ButtonCommand}" Style="{StaticResource ResourceButtonStyle}">
-        <Image Source="{Binding ResourceImage}" Stretch="Uniform" Margin="2" />
+        <Image Source="{Binding ResourceImage}" />
     </Button>
 
 </UserControl>

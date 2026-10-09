@@ -3,9 +3,8 @@ using System.Windows.Input;
 using gui.Helpers;
 using gui.Model.Managers.CardManager;
 using gui.Model.Managers.InfoManager;
-using gui.Model.Managers.InputManager;
+using InputManager = gui.Model.Managers.InputManager.InputManager;
 using gui.Model.Managers.RemoteManager;
-using gui.Model;
 using gui.ViewModel.CardEditor;
 
 namespace gui
@@ -23,15 +22,12 @@ namespace gui
 
         public MainWindow()
         {
-            var gm = GameManager.Instance;
-
             Instance = this;
 
             InitializeComponent();
 
-            var im = InfoManager.Instance;
+            _ = InfoManager.Instance;
 
-            InputManager.Instance.Start();
             InputManager.Instance.BtnPressed += RemoteManager.Instance.OnButtonPressed;
             InputManager.Instance.CardScanned += CardManager.Instance.OnCardScanned;
         }

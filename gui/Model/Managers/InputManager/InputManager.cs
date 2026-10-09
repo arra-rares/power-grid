@@ -39,9 +39,9 @@ namespace gui.Model.Managers.InputManager
 
         // ====== PRIVATE FIELDS ======
 
-        private readonly UdpClient _udpClient = new(8081); // UDP server for receiving input events
-        private readonly CancellationTokenSource _cts = new(); // For graceful shutdown
-        private Task? _inputTask; // Task handling UDP packet listening
+        private UdpClient? _udpClient;
+        private CancellationTokenSource? _cts;
+        private Task? _inputTask;
 
         // ====== CONSTRUCTOR ======
 
@@ -55,10 +55,26 @@ namespace gui.Model.Managers.InputManager
         /// <summary>
         /// Starts listening for input events asynchronously.
         /// </summary>
-        public void Start()
+        public bool Start()
         {
+            Stop();
+            UdpClient client;
+            try
+            {
+                client = new UdpClient(8081);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "UDP port 8081 is unavailable. Input stays disabled.");
+                return false;
+            }
+
+            _udpClient = client;
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+            _inputTask = Task.Run(() => Run(token, client));
             Log.Information($"{nameof(InputManager)}: Start");
-            _inputTask = Task.Run(() => Run(_cts.Token));
+            return true;
         }
 
         /// <summary>
@@ -66,9 +82,36 @@ namespace gui.Model.Managers.InputManager
         /// </summary>
         public void Stop()
         {
-            _cts.Cancel();
-            _inputTask?.Wait();
-            Console.WriteLine("InputManager stopped.");
+            try
+            {
+                _cts?.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+
+            try
+            {
+                _inputTask?.Wait(TimeSpan.FromSeconds(2));
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "InputManager stop waited on a failed listener.");
+            }
+
+            try
+            {
+                _udpClient?.Close();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "InputManager socket close failed.");
+            }
+
+            _udpClient = null;
+            _cts?.Dispose();
+            _cts = null;
+            _inputTask = null;
         }
 
         // ====== PRIVATE METHODS ======
@@ -76,42 +119,37 @@ namespace gui.Model.Managers.InputManager
         /// <summary>
         /// Runs the input listening loop, processing UDP packets.
         /// </summary>
-        private async Task Run(CancellationToken cancellationToken)
+        private async Task Run(CancellationToken cancellationToken, UdpClient client)
         {
             try
             {
-                await ProcessUdpPackets(cancellationToken);
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    var result = await client.ReceiveAsync(cancellationToken);
+                    HandleReceivedPacket(result.Buffer);
+                }
             }
             catch (OperationCanceledException)
             {
-                Console.WriteLine("InputManager: Shutdown requested.");
+                Log.Information("InputManager: Shutdown requested.");
+            }
+            catch (ObjectDisposedException)
+            {
+                Log.Information("InputManager: Socket closed.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"InputManager Error: {ex.Message}");
+                Log.Error(ex, "InputManager error");
             }
             finally
             {
-                _udpClient.Close();
-                Console.WriteLine("UDP Server stopped.");
-            }
-        }
-
-        /// <summary>
-        /// Continuously listens for UDP packets and processes them.
-        /// </summary>
-        private async Task ProcessUdpPackets(CancellationToken cancellationToken)
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                Log.Information($"{nameof(ProcessUdpPackets)}");
-                var receiveTask = _udpClient.ReceiveAsync();
-
-                var completedTask = await Task.WhenAny(receiveTask, Task.Delay(-1, cancellationToken));
-
-                if (completedTask == receiveTask)
+                try
                 {
-                    HandleReceivedPacket(receiveTask.Result.Buffer);
+                    client.Close();
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "InputManager listener close failed.");
                 }
             }
         }

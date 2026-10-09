@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using gui.Model.Managers.CardManager;
 using gui.Model.Managers.PlayerManager;
+using gui.Model.Persistence;
 using Serilog;
 
 namespace gui.Model.Managers.RemoteManager
@@ -29,8 +29,17 @@ namespace gui.Model.Managers.RemoteManager
 
         public event Action<Player, Button>? ButtonPressed;
 
+        public void Clear()
+        {
+            _remotes.Clear();
+            _playersRemote.Clear();
+        }
+
         public void OnButtonPressed(int remoteId, int btn)
         {
+            if (InputGate.Closed)
+                return;
+
             Log.Information($"remoteId: {remoteId}, btn: {btn}");
 
             if (!_remotes.TryGetValue(remoteId, out var player) ||

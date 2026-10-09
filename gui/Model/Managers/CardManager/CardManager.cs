@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using gui.Model.Managers.MarketManager;
 using gui.Model.Managers.PlayerManager;
+using gui.Model.Persistence;
 using gui.Model.Phases;
 using gui.View;
 using gui.View.CardEditor;
@@ -60,8 +61,46 @@ namespace gui.Model.Managers.CardManager
         }
 
         // Card Scanning
+        public bool Contains(int cardId) => _cards.ContainsKey(cardId);
+
+        public List<CardFlagSnapshot> ExportEndsTurn()
+        {
+            return _cards.Values
+                .Select(card => new CardFlagSnapshot { Id = card.Id, EndsTurn = card.EndsTurn })
+                .ToList();
+        }
+
+        public void ApplyEndsTurn(IEnumerable<CardFlagSnapshot> flags)
+        {
+            foreach (var flag in flags)
+            {
+                if (_cards.TryGetValue(flag.Id, out var card))
+                    card.EndsTurn = flag.EndsTurn;
+            }
+        }
+
+        public void SetLevel3(bool value) => IsLevel3 = value;
+
+        public void ClearAssignments() => _assignedCards.Clear();
+
+        public void Attach(Player player, Card card)
+        {
+            _assignedCards[card] = player;
+            player.Cards.Add(card);
+        }
+
+        public void ClearSession()
+        {
+            _assignedCards.Clear();
+            IsLevel3 = false;
+            LoadCards();
+        }
+
         public void OnCardScanned(int cardId)
         {
+            if (InputGate.Closed)
+                return;
+
             Log.Information($"OnCardScanned, id: {cardId}");
 
             if (!_cards.TryGetValue(cardId, out var card))

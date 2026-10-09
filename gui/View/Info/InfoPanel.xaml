@@ -14,22 +14,23 @@
         <SolidColorBrush x:Key="AccentBrush" Color="#FF6F61"/>
     </UserControl.Resources>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="3*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Margin="5">
             <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
-                <TextBlock Text="{Binding PhaseName}" 
-                   FontSize="{DynamicResource FontSizeLarge}" FontWeight="Bold" 
-                   Foreground="{StaticResource WhiteBrush}" 
-                   TextAlignment="Center"
-                   HorizontalAlignment="Center" 
-                   TextWrapping="Wrap"
-                   MaxWidth="600"/>
+                <TextBlock Text="{Binding PhaseName}"
+                           FontSize="{DynamicResource FontSizeLarge}" FontWeight="Bold"
+                           Foreground="{StaticResource WhiteBrush}"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           MaxWidth="600" />
             </Viewbox>
         </Border>
 
@@ -45,8 +46,8 @@
         </Border>
 
         <Border Grid.Row="2" Margin="5">
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly"
+                     HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Grid Margin="0,5,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -91,7 +92,32 @@
                                Foreground="{StaticResource WhiteBrush}"
                                TextWrapping="Wrap"/>
                 </Grid>
-            </ScrollViewer>
+            </Viewbox>
+        </Border>
+
+        <Border Grid.Row="3" Margin="5">
+            <Button Command="{Binding ToggleClockCommand}"
+                    Margin="4"
+                    Padding="4"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch">
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Set clock..."
+                                  FontSize="22"
+                                  Command="{Binding SetClockCommand}" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+                <Viewbox Stretch="Uniform">
+                    <TextBlock Text="{Binding ClockButtonText}"
+                               FontSize="72"
+                               FontWeight="Bold"
+                               Margin="0"
+                               Foreground="{Binding ClockBrush}" />
+                </Viewbox>
+            </Button>
         </Border>
     </Grid>
 </UserControl>

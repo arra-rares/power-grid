@@ -21,7 +21,23 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontSize="{DynamicResource FontSizeMedium}"/>
         </Viewbox>
-        <Button Content="-1" Command="{Binding DecreaseCommand}" Grid.Column="3"/>
-        <Button Content="+1" Command="{Binding IncreaseCommand}" Grid.Column="4"/>
+        <Button Command="{Binding DecreaseCommand}" Grid.Column="3"
+                Height="{DynamicResource PhaseImageHeight}"
+                MinWidth="120"
+                VerticalAlignment="Center"
+                Margin="8,0"
+                Padding="0">
+            <TextBlock Text="-1" Margin="0" FontSize="{DynamicResource FontSizeDefault}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <Button Command="{Binding IncreaseCommand}" Grid.Column="4"
+                Height="{DynamicResource PhaseImageHeight}"
+                MinWidth="120"
+                VerticalAlignment="Center"
+                Margin="8,0"
+                Padding="0">
+            <TextBlock Text="+1" Margin="0" FontSize="{DynamicResource FontSizeDefault}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
     </Grid>
 </UserControl>

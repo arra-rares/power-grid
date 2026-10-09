@@ -32,9 +32,9 @@
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="52*" />
+                <RowDefinition Height="54*" />
                 <!-- Info, Action, Supply -->
-                <RowDefinition Height="48*" />
+                <RowDefinition Height="46*" />
                 <!-- MarketPanel -->
             </Grid.RowDefinitions>
 
@@ -52,8 +52,8 @@
                 <action:ActionPanel Grid.Column="1" />
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80*" />
-                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="68*" />
+                        <RowDefinition Height="32*" />
                     </Grid.RowDefinitions>
 
                     <resupply:ResupplyPanel Grid.Row="0"/>

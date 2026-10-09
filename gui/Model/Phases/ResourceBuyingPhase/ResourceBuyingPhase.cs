@@ -1,7 +1,6 @@
 ﻿using gui.Model.Managers.MarketManager;
 using gui.Model.Managers.PlayerManager;
 using gui.Model.Managers.RemoteManager;
-using gui.Model.Phases.AuctionPhase;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -22,9 +21,6 @@ namespace gui.Model.Phases.ResourceBuyingPhase
 
         public override async Task Execute()
         {
-            if (GameManager.Instance.IsRound(1))
-                PlayerManager.Instance.Reorder();
-
             Log.Information("Running: ResourceBuyingPhase");
 
             var players = new Stack<Player>(PlayerManager.Instance.GetPlayers());

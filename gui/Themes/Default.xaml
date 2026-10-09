@@ -110,10 +110,10 @@
     <Style x:Key="ResourceButtonStyle" TargetType="Button">
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="5" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="MinWidth" Value="{DynamicResource ResourceButtonWidth}" />
-        <Setter Property="MinHeight" Value="{DynamicResource ResourceButtonHeight}" />
+        <Setter Property="Width" Value="{DynamicResource ResourceButtonWidth}" />
+        <Setter Property="Height" Value="{DynamicResource ResourceButtonHeight}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
     </Style>
 
     <Style x:Key="StatusButtonStyle" TargetType="Button">

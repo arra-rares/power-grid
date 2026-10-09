@@ -1,6 +1,7 @@
 ﻿using gui.Helpers;
 using gui.Model;
 using gui.Model.Managers.PlayerManager;
+using gui.Model.Persistence;
 using Serilog;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -60,7 +61,12 @@ namespace gui.ViewModel.Players
 
         private void ReloadPlayers()
         {
-            // Reload the existing model
+            if (GameSession.Active)
+            {
+                Log.Information("Reload players is blocked while a session is active.");
+                return;
+            }
+
             GameManager.Instance.ReloadPlayers();
 
             LoadPlayerPanels();

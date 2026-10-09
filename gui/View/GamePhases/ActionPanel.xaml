@@ -12,7 +12,7 @@
         <ImageBrush x:Key="MarketBackground" ImageSource="../../Assets/Images/market.png"/>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource MarketBackground}" Margin="10">
+    <Grid Background="{StaticResource MarketBackground}">
         <ContentControl Content="{Binding CurrentPhaseView}"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch"/>

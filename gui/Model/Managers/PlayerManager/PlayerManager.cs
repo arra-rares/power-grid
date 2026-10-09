@@ -1,6 +1,6 @@
-﻿using gui.Model.Utils;
+﻿using gui.Model.Persistence;
+using gui.Model.Utils;
 using Serilog;
-using System.IO;
 using static gui.Model.Managers.PlayerManager.Status;
 
 namespace gui.Model.Managers.PlayerManager
@@ -26,6 +26,8 @@ namespace gui.Model.Managers.PlayerManager
         /// <summary>
         /// Stores all players, ordered by rank at time of request.
         /// </summary>
+        private int _nextId = 1;
+
         private List<Player> _players = [];
         public List<Player> Players
         {
@@ -50,8 +52,21 @@ namespace gui.Model.Managers.PlayerManager
         public Player AddPlayer(string name)
         {
             Player p = new(name);
+            p.AssignId(_nextId++);
             _players.Add(p);
             return p;
+        }
+
+        public void ReplaceAll(List<Player> players)
+        {
+            _nextId = players.Count == 0 ? 1 : players.Max(player => player.Id) + 1;
+            Players = players;
+        }
+
+        public void Clear()
+        {
+            _nextId = 1;
+            Players = [];
         }
 
         /// <summary>
@@ -133,7 +148,10 @@ namespace gui.Model.Managers.PlayerManager
             }
             if (state == PlayerState.Active)
             {
-                player.Clock.StartWithDelay();
+                if (GameSession.TakeStartWithoutDelay())
+                    player.Clock.Start();
+                else
+                    player.Clock.StartWithDelay();
             }
             player.Status.State = state;
         }

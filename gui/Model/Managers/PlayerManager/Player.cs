@@ -21,6 +21,10 @@ namespace gui.Model.Managers.PlayerManager
         /// <summary>
         /// Player's name.
         /// </summary>
+        public int Id { get; private set; }
+
+        public void AssignId(int id) => Id = id;
+
         private string _name = name;
         public string Name
         {
@@ -44,6 +48,8 @@ namespace gui.Model.Managers.PlayerManager
         /// The last card that was removed from the player's hand.
         /// </summary>
         public Card? LastRemovedCard { get; private set; } = null;
+
+        public void SetLastRemovedCard(Card? card) => LastRemovedCard = card;
 
         /// <summary>
         /// Indicates whether the player holds the "Bureaucrat" special card.

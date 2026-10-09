@@ -1,4 +1,5 @@
-﻿using gui.Model.Utils;
+﻿using gui.Model.Persistence;
+using gui.Model.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -34,28 +35,36 @@ namespace gui.Model.Managers.MarketManager
             _filled = ListUtils.EnumToList<ResourceType, LinkedList<Resource>>(_ => []);
         }
 
-        public ResourceType GetMostLimitedResourceType()
+        public ResourceType GetCheapestResourceType()
         {
-            ResourceType resource = _empty
-                .Select((list, index) => new { ResourceType = (ResourceType)index, list.Count })
-                .OrderByDescending(r => r.Count)
-                .First().ResourceType;
-
-            Log.Information($"Most limited resource: {resource}");
-
-            return resource;
+            var cheapest = PricesOnMarket().OrderBy(item => item.Price).ThenBy(item => item.Type).First();
+            Log.Information("Cheapest resource: {Resource} at {Price}", cheapest.Type, cheapest.Price);
+            return cheapest.Type;
         }
 
-        public ResourceType GetMostAvailableResourceType()
+        public ResourceType GetMostExpensiveResourceType()
         {
-            ResourceType resource = _empty
-                .Select((list, index) => new { ResourceType = (ResourceType)index, list.Count })
-                .OrderBy(r => r.Count)
-                .First().ResourceType;
+            var expensive = PricesOnMarket().OrderByDescending(item => item.Price).ThenBy(item => item.Type).First();
+            Log.Information("Most expensive resource: {Resource} at {Price}", expensive.Type, expensive.Price);
+            return expensive.Type;
+        }
 
-            Log.Information($"Most available resource: {resource}");
+        private List<(ResourceType Type, int Price)> PricesOnMarket()
+        {
+            var prices = new List<(ResourceType Type, int Price)>();
+            foreach (ResourceType type in Enum.GetValues<ResourceType>())
+            {
+                var onMarket = _filled[(int)type].First;
+                if (onMarket == null)
+                    continue;
 
-            return resource;
+                prices.Add((type, onMarket.Value.Price));
+            }
+
+            if (prices.Count == 0)
+                throw new InvalidOperationException("No resource is on the market.");
+
+            return prices;
         }
 
 
@@ -63,18 +72,19 @@ namespace gui.Model.Managers.MarketManager
         {
             Dictionary<int, PriceTier> result = [];
 
-            // Iterate over _empty
-            foreach (var ResourceTypeList in _empty)
+            foreach (ResourceType type in Enum.GetValues<ResourceType>())
             {
-                // Iterate over resources and group them by price
-                foreach (var resource in ResourceTypeList)
+                var resources = _empty[(int)type]
+                    .Concat(_filled[(int)type])
+                    .OrderBy(resource => resource.Id);
+
+                foreach (var resource in resources)
                 {
                     result.TryAdd(resource.Price, new PriceTier(resource.Price));
                     result[resource.Price].Add(resource);
                 }
             }
 
-            // Return the resulting dictionary as an IReadOnlyDictionary
             return result;
         }
 
@@ -122,6 +132,49 @@ namespace gui.Model.Managers.MarketManager
         public bool HasStock(ResourceType resourceType)
         {
             return _filled[(int)resourceType].Count > 0;
+        }
+
+        public List<MarketPileSnapshot> ExportPiles()
+        {
+            var piles = new List<MarketPileSnapshot>();
+            foreach (ResourceType type in Enum.GetValues<ResourceType>())
+            {
+                piles.Add(new MarketPileSnapshot
+                {
+                    Type = type.ToString(),
+                    Empty = Walk(_empty[(int)type]),
+                    Filled = Walk(_filled[(int)type])
+                });
+            }
+            return piles;
+        }
+
+        public void ImportPiles(IEnumerable<MarketPileSnapshot> piles)
+        {
+            Clear();
+            foreach (var pile in piles)
+            {
+                if (!Enum.TryParse<ResourceType>(pile.Type, out var type))
+                    continue;
+
+                foreach (var token in pile.Empty)
+                    _empty[(int)type].AddLast(new Resource(type, token.Price, token.Id));
+
+                foreach (var token in pile.Filled)
+                {
+                    var resource = new Resource(type, token.Price, token.Id) { };
+                    resource.Filled = true;
+                    _filled[(int)type].AddLast(resource);
+                }
+            }
+        }
+
+        private static List<TokenSnapshot> Walk(LinkedList<Resource> list)
+        {
+            var tokens = new List<TokenSnapshot>();
+            for (var node = list.First; node != null; node = node.Next)
+                tokens.Add(new TokenSnapshot { Id = node.Value.Id, Price = node.Value.Price });
+            return tokens;
         }
 
         // 3. Private Methods
